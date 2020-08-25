@@ -16,23 +16,19 @@ stages:
       steps:
       - bash:   echo Build stage1
   - stage: Deploy_to_UAT
-    dependsOn:
-    - Build
+    dependsOn: Build
     jobs:
     - job: job1_deploy_to_uat
       steps:
       - bash: echo Build stage2 deploy to uat
   - stage: Deploy_to_PRE_PROD
-    dependsOn:
-    - Build
-    - Deploy_to_UAT
+    dependsOn: Build
     jobs:
     - job: job1_deploy_to_PRE_PROD
       steps:
       - bash: echo Build stage3 deploy to PRE-PROD
   - stage: Deploy_to_Prod
     dependsOn:
-    - Build
     - Deploy_to_UAT
     - Deploy_to_PRE_PROD
     jobs:
