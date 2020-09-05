@@ -14,30 +14,42 @@ stages:
     jobs:
     - job: job1
       steps:
-      - bash:   echo Build stage1
-  - stage: Deploy_to_UAT
-    dependsOn: Build
-    variables:
-      environment: uat
-      buildEnv: uat2
-    jobs:
-    - job: job1_deploy_to_uat
-      steps:
-      - bash: echo Build stage2 deploy to uat
-      - bash: echo This is the running build version $(Version_Variable)
-      - bash: echo This is the running environment $(environment)
-  - stage: Deploy_to_PRE_PROD
-    dependsOn: Build
-    jobs:
-    - job: job1_deploy_to_PRE_PROD
-      steps:
-      - bash: echo Build stage3 deploy to PRE-PROD
-      - bash: echo This is the running build environment $(buildEnv)
-  - stage: Deploy_to_Prod
-    dependsOn:
-    - Deploy_to_UAT
-    - Deploy_to_PRE_PROD
-    jobs:
-    - job: job1_deploy_to_PROD
-      steps:
-      - bash: echo Build stage4 deploy to PROD
+      - bash: echo Build stage1
+      - bash: echo $(Build.BuildNumber)
+      - bash: echo $(Build.BuildId)
+      - bash: echo $(Build.SourceBranchName)
+      - bash: echo $(Build.SourcesDirectory)
+      - bash: echo $(System.DefaultWorkingDirectory)
+      - bash: ls -R $(System.DefaultWorkingDirectory)
+      - bash: echo $(Build.ArtifactStagingDirectory)
+      - bash: java -version
+      - bash: node --version
+      - bash: python --version 
+      - bash: mvn -version 
+      - bash: ls -R $(Build.ArtifactStagingDirectory)
+  # - stage: Deploy_to_UAT
+  #   dependsOn: Build
+  #   variables:
+  #     environment: uat
+  #     buildEnv: uat2
+  #   jobs:
+  #   - job: job1_deploy_to_uat
+  #     steps:
+  #     - bash: echo Build stage2 deploy to uat
+  #     - bash: echo This is the running build version $(Version_Variable)
+  #     - bash: echo This is the running environment $(environment)
+  # - stage: Deploy_to_PRE_PROD
+  #   dependsOn: Build
+  #   jobs:
+  #   - job: job1_deploy_to_PRE_PROD
+  #     steps:
+  #     - bash: echo Build stage3 deploy to PRE-PROD
+  #     - bash: echo This is the running build environment $(buildEnv)
+  # - stage: Deploy_to_Prod
+  #   dependsOn:
+  #   - Deploy_to_UAT
+  #   - Deploy_to_PRE_PROD
+  #   jobs:
+  #   - job: job1_deploy_to_PROD
+  #     steps:
+  #     - bash: echo Build stage4 deploy to PROD
